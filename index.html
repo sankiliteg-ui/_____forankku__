@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mahashivratri | Ankku Dii</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --shiv-orange: #ff8c00;
+        }
+        /* Fix for mobile height issues */
+        body, html { 
+            margin: 0; padding: 0; background: #000; color: #f3e5ab; 
+            font-family: 'Cinzel Decorative', cursive; overflow: hidden;
+            height: 100%; width: 100%; position: fixed;
+        }
+        .hindi { font-family: 'Tiro Devanagari Hindi', serif; }
+        
+        /* Optimized Background */
+        .bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 100%);
+            z-index: -2;
+        }
+
+        .bg-video {
+            position: fixed; top: 50%; left: 50%; 
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto;
+            transform: translate(-50%, -50%);
+            z-index: -1; opacity: 0.35; 
+            object-fit: cover;
+            /* Prevents gray flicker on load */
+            background: #000;
+        }
+
+        /* Smooth Card for Mobile */
+        .divine-card {
+            background: rgba(15, 15, 15, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); /* Safari/Android Chrome fix */
+            border: 1px solid rgba(255, 140, 0, 0.4);
+            border-radius: 40px 5px 40px 5px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 350px;
+        }
+
+        .page {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            padding: 20px;
+            will-change: opacity, transform;
+        }
+        .hidden-page { opacity: 0; transform: scale(1.05); pointer-events: none; }
+        .visible-page { opacity: 1; transform: scale(1); pointer-events: auto; }
+
+        .btn-divine {
+            background: linear-gradient(135deg, #ff8c00, #e65100);
+            color: white; padding: 14px 32px; border-radius: 50px;
+            font-size: 0.85rem; letter-spacing: 1.5px; font-weight: bold;
+            box-shadow: 0 8px 20px rgba(230, 81, 0, 0.4);
+            border: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .btn-divine:active { transform: scale(0.95); }
+
+        .om-symbol {
+            font-size: 70px; color: var(--shiv-orange);
+            filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.6));
+            margin-bottom: 15px;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="divineAudio" loop preload="auto">
+        <source src="SHIVV.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="bg-overlay"></div>
+
+    <div id="page1" class="page visible-page">
+        <video id="vid1" class="bg-video" autoplay muted loop playsinline webkit-playsinline>
+            <source src="shh.mp4" type="video/mp4">
+        </video>
+
+        <div class="text-center">
+            <div class="om-symbol">ॐ</div>
+            <h1 class="text-4xl font-bold tracking-widest text-white mb-2">SHIVA 2026</h1>
+            <p class="hindi text-lg text-orange-200 mb-10 opacity-90">अंकु दी के लिए महादेव का आशीर्वाद</p>
+            <button onclick="revealBlessing()" class="btn-divine uppercase">दर्शन शुरू करें</button>
+        </div>
+    </div>
+
+    <div id="page2" class="page hidden-page" style="display:none;">
+        <video id="vid2" class="bg-video" muted loop playsinline webkit-playsinline>
+            <source src="SHII.mp4" type="video/mp4">
+        </video>
+
+        <div class="divine-card p-8 text-center">
+            <div class="mb-6">
+                <img src="MAHADEV.jpg" alt="Mahadev" class="w-32 h-32 mx-auto rounded-full object-cover border-4 border-orange-500 shadow-lg">
+            </div>
+
+            <h2 class="text-xl font-bold text-orange-500 mb-4">अंकु दी (Ankku Dii)</h2>
+            
+            <div class="space-y-5">
+                <p class="hindi text-xl text-white leading-relaxed">
+                    ना आदि ना अंत है उसका, <br>
+                    वो सबका, और सब उसके हैं। <br>
+                    महादेव की कृपा आप पर <br>
+                    सदैव बनी रहे।
+                </p>
+                <div class="h-px w-24 bg-orange-900 mx-auto"></div>
+                <p class="text-xs font-sans italic text-gray-300">
+                    "May Lord Shiva guide you through every darkness and fill your life with eternal light."
+                </p>
+            </div>
+
+            <button onclick="location.reload()" class="mt-8 text-[9px] uppercase tracking-widest text-orange-700">Reset Journey</button>
+        </div>
+    </div>
+
+    <script>
+        function revealBlessing() {
+            const p1 = document.getElementById('page1');
+            const p2 = document.getElementById('page2');
+            const audio = document.getElementById('divineAudio');
+            const vid2 = document.getElementById('vid2');
+
+            // Sound activation for mobile
+            audio.play().catch(err => console.log("Audio needs user interaction"));
+
+            // Animation
+            p1.classList.add('hidden-page');
+
+            setTimeout(() => {
+                p1.style.display = 'none';
+                p2.style.display = 'flex';
+                
+                // Important for Android: play() must be called after interaction
+                if(vid2) {
+                    vid2.play();
+                }
+
+                setTimeout(() => {
+                    p2.classList.remove('hidden-page');
+                    p2.classList.add('visible-page');
+                }, 50);
+            }, 600);
+        }
+    </script>
+</body>
+</html>
